@@ -11,8 +11,9 @@
 
 // Layers
 #define L_QRTY 0
-#define L_SYM 1
-#define L_NUM 2
+#define L_LAY 1
+#define L_SYM 2
+#define L_NUM 3
 
 // Key numbers
 #define KEYS_L 0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29 36 37 38 39 40 41
@@ -51,26 +52,45 @@
     keymap {
         compatible = "zmk,keymap";
 
-        default_layer {
+        qwerty {
 // ------------------------------------------------------------------------------------------------------------
 // |  ESC  |  1  |  2  |  3   |  4   |  5  |                   |  6  |  7    |  8    |  9   |   0   |   `   |
 // |  TAB  |  Q  |  W  |  E   |  R   |  T  |                   |  Y  |  U    |  I    |  O   |   P   |   -   |
-// |  CTRL |  A  |  S  |  D   |  F   |  G  |                   |  H  |  J    |  K    |  L   |   ;   |   '   |
-// | SHIFT |  Z  |  X  |  C   |  V   |  B  |   "["  |  |  "]"  |  N  |  M    |  ,    |  .   |   /   | SHIFT |
+// |       |  A  |  S  |  D   |  F   |  G  |                   |  H  |  J    |  K    |  L   |   ;   |   '   |
+// |       |  Z  |  X  |  C   |  V   |  B  |   "["  |  |  "]"  |  N  |  M    |  ,    |  .   |   /   | LAYER |
 //                     | ALT  | GUI  | SYM |  SPACE |  | ENTER | NUM | BSPC  | GUI   |
             display-name = "QWRTY";
             bindings = <
 &kp ESC   &kp N1       &kp N2       &kp N3        &kp N4        &kp N5                     &kp N6 &kp N7        &kp N8        &kp N9       &kp N0          &kp GRAVE
 &kp TAB   &kp Q        &kp W        &kp E         &kp R         &kp T                      &kp Y  &kp U         &kp I         &kp O        &kp P           &kp MINUS
 &trans    &hml LGUI A  &hml LALT S  &hml LCTRL D  &hml LSHFT F  &kp G                      &kp H  &hmr RSHFT J  &hmr RCTRL K  &hmr RALT L  &hmr RGUI SEMI  &kp SQT
-&trans    &kp Z        &kp X        &kp C         &kp V         &kp B  &kp LBKT   &kp RBKT &kp N  &kp M         &kp COMMA     &kp DOT      &kp FSLH        &trans
+&trans    &kp Z        &kp X        &kp C         &kp V         &kp B  &kp LBKT   &kp RBKT &kp N  &kp M         &kp COMMA     &kp DOT      &kp FSLH        &mo L_LAY
                                           &kp LALT &kp LGUI &mo L_SYM  &kp SPACE  &kp RET  &mo L_NUM  &kp BSPC &kp RGUI
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
-        lower_layer {
+        layers {
+// ------------------------------------------------------------------------------------------------------------
+// |       |     |     |      |      |      |                   |      |       |       |      |       |       |
+// |   `   |     |     |      |      |      |                   |      |       |       |      |       |       |
+// |       |     |     |      |      | GAME |                   |      |       |       |      |  -    |       |
+// |       |     |     |      |      | QRTY |        |  |       |      |       |       |      |       |       |
+//                     |      |      |      |        |  |       |      |       |       |
+            display-name = "Layers";
+            bindings = <
+&trans  &trans &trans &trans  &trans  &trans                          &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans &trans &trans  &trans  &trans                          &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans &trans &trans  &trans  &tog L_GAME                     &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans &trans &trans  &trans  &tog L_QRTY   &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
+                      &trans  &trans  &trans        &trans    &trans  &trans  &trans  &trans
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        symbols {
 // ------------------------------------------------------------------------------------------------------------
 // | BTCLR | BT1 | BT2 |  BT3 |  BT4 |  BT5 |                   |      |       |       |      |       |       |
 // |  F1   |  F2 |  F3 |  F4  |  F5  |  F6  |                   |  F7  |  F8   |  F9   |  F10 |  F11  |  F12  |
@@ -89,7 +109,7 @@
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
-        raise_layer {
+        numbers {
 // ------------------------------------------------------------------------------------------------------------
 // |       |     |     |      |      |      |                   |      |       |       |      |       |       |
 // |   `   |  1  |  2  |  3   |  4   |  5   |                   |  6   |   7   |   8   |  9   |   0   |       |
@@ -103,6 +123,44 @@
 &kp F1    &kp F2 &kp F3 &kp F4  &kp F5  &kp F6                       &trans      &kp LEFT  &kp DOWN  &kp UP   &kp RIGHT &trans
 &kp F7    &kp F8 &kp F9 &kp F10 &kp F11 &kp F12   &trans   &trans    &kp KP_PLUS &kp MINUS &kp EQUAL &kp LBKT &kp RBKT  &kp BSLH
                         &trans  &trans  &trans    &trans   &trans    &trans      &trans    &trans
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        gaming {
+// ------------------------------------------------------------------------------------------------------------
+// |  ESC  |  1  |  2  |  3   |  4   |  5  |                   |  6  |  7    |  8    |  9   |   0   |   `   |
+// |  TAB  |  Q  |  W  |  E   |  R   |  T  |                   |  Y  |  U    |  I    |  O   |   P   |   -   |
+// |  SHFT |  A  |  S  |  D   |  F   |  G  |                   |  H  |  J    |  K    |  L   |   ;   |   '   |
+// |  CTRL |  Z  |  X  |  C   |  V   |  B  |   "["  |  |  "]"  |  N  |  M    |  ,    |  .   |   /   | LAYER |
+//                     | ALT  | GUI  | SYM |  SPACE |  | ENTER | NUM | BSPC  | GUI   |
+            display-name = "Game";
+            bindings = <
+&kp ESC      &kp N1       &kp N2       &kp N3        &kp N4        &kp N5                      &kp N6 &kp N7        &kp N8        &kp N9       &kp N0          &kp GRAVE
+&kp TAB      &kp Q        &kp W        &kp E         &kp R         &kp T                       &kp Y  &kp U         &kp I         &kp O        &kp P           &kp MINUS
+&kp LSHFT    &kp A        &kp S        &kp D         &kp F         &kp G                       &kp H  &kp J         &kp K         &kp L        &kp SEMI        &kp SQT
+&trans       &kp Z        &kp X        &kp C         &kp V         &kp B  &kp LBKT   &kp RBKT  &kp N  &kp M         &kp COMMA     &kp DOT      &kp FSLH        &mo L_LAY
+                                             &kp LALT &kp LGUI &kp SPACE  &kp SPACE  &kp RET   &mo L_NUM  &kp BSPC &kp RGUI
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        trans {
+// ------------------------------------------------------------------------------------------------------------
+// |       |     |     |      |      |      |                   |      |       |       |      |       |       |
+// |   `   |     |     |      |      |      |                   |      |       |       |      |       |       |
+// |       |     |     |      |      |      |                   |      |       |       |      |  -    |       |
+// |       |     |     |      |      |      |        |  |       |      |       |       |      |       |       |
+//                     |      |      |      |        |  |       |      |       |       |
+            display-name = "trans";
+            bindings = <
+&trans  &trans &trans &trans  &trans  &trans                     &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans &trans &trans  &trans  &trans                     &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans &trans &trans  &trans  &trans                     &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans &trans &trans  &trans  &trans   &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
+                      &trans  &trans  &trans   &trans    &trans  &trans  &trans  &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
