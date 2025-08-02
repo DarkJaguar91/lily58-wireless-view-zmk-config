@@ -14,6 +14,7 @@
 #define L_LAY 1
 #define L_SYM 2
 #define L_NUM 3
+#define L_GAME 4
 
 // Key numbers
 #define KEYS_L 0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29 36 37 38 39 40 41
@@ -80,11 +81,11 @@
 //                     |      |      |      |        |  |       |      |       |       |
             display-name = "Layers";
             bindings = <
-&trans  &trans &trans &trans  &trans  &trans                          &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans &trans &trans  &trans  &trans                          &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans &trans &trans  &trans  &tog L_GAME                     &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans &trans &trans  &trans  &tog L_QRTY   &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-                      &trans  &trans  &trans        &trans    &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                          &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                          &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &tog L_GAME                     &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &tog L_QRTY   &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
+                        &trans  &trans  &trans        &trans    &trans  &trans  &trans  &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
